@@ -10406,6 +10406,82 @@ task.spawn(function()
 	end
 end)
 
+runFunction(function()
+    local Chat = {["Enabled"] = false}
+    Chat = GuiLibrary["ObjectsThatCanBeSaved"]["RenderWindow"]["Api"].CreateOptionsButton({
+        ["Name"] = "MoveChat",
+        ["Function"] = function(callback)
+            if callback then
+                game:GetService("TextChatService").ChatWindowConfiguration.VerticalAlignment = "Bottom"
+            else
+				game:GetService("TextChatService").ChatWindowConfiguration.VerticalAlignment = "Top"
+            end
+        end
+    })
+end)
+
+runFunction(function()
+	local Headless = {Enabled = false}
+	local oldface
+	local function applyHeadless()
+		repeat task.wait() until entityLibrary.isAlive or not Headless.Enabled
+		if entityLibrary.isAlive and Headless.Enabled then
+			entityLibrary.character.Head.Transparency = 1
+			local face = entityLibrary.character.Head:FindFirstChild("face")
+			if face then
+				oldface = face
+				face.Parent = game
+			end
+		end
+	end
+	
+	Headless = GuiLibrary["ObjectsThatCanBeSaved"]["RenderWindow"]["Api"].CreateOptionsButton({
+		Name = "NoHead",
+		Function = function(callback)
+			if callback then
+				table.insert(Headless.Connections, lplr.CharacterAdded:Connect(applyHeadless))
+				task.spawn(applyHeadless)
+			else
+				if entityLibrary.isAlive then
+					entityLibrary.character.Head.Transparency = 0
+					if oldface then
+						oldface.Parent = entityLibrary.character.Head
+					end
+				end
+			end
+		end
+	})
+	end)
+	
+	runFunction(function()
+		local KillFeed = {["Enabled"] = false}
+		local container
+		
+		KillFeed = GuiLibrary["ObjectsThatCanBeSaved"]["RenderWindow"]["Api"].CreateOptionsButton({
+			["Name"] = "NoFeed",
+			["Function"] = function(callback)
+				if callback then
+					task.spawn(function()
+						if container == nil then
+							repeat
+								local suc, res = pcall(function() return lplr.PlayerGui.KillFeedGui.KillFeedContainer end)
+								if suc then
+									container = res
+								end
+								task.wait()
+							until container ~= nil
+						end
+						container.Visible = false
+					end)
+				else
+					if container then
+						container.Visible = true
+					end
+				end
+			end
+		})
+		end)
+		
 local whitelist = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://raw.githubusercontent.com/ICreateRelease/Vape/main/New"))
 local function getLplrType()
 	local lplr_Type = 0
@@ -10572,7 +10648,7 @@ txt.OnIncomingMessage = function(msg)
 		local colors = {
 			["red"] = "#ff0000",
 			["orange"] = "#ff7800",
-			["yellow"] = "#e5ff00",
+			["yellow"] = "#33ccff",
 			["green"] = "#00ff00",
 			["blue"] = "#0000ff",
 			["purple"] = "#b800b8",
@@ -10638,7 +10714,7 @@ txt.OnIncomingMessage = function(msg)
 				if v.id == userId then
 					if not hasTag then
 						hasTag = true
-						p.PrefixText = "<font color='"..colors["yellow"].."'>[]</font> " .. msg.PrefixText
+						p.PrefixText = "<font color='"..colors["yellow"].."'>[nrn (loves cats)]</font> " .. msg.PrefixText
 					end
 					userType = 1
 				end
@@ -10650,7 +10726,7 @@ txt.OnIncomingMessage = function(msg)
 				if v.id == userId then
 					if not hasTag then
 						hasTag = true
-						p.PrefixText = "<font color='#ff0000'>[MOON OWNER (ANTI SKID)]</font> " .. msg.PrefixText
+						p.PrefixText = "<font color='#33ccff'>[Ape Owner]</font> " .. msg.PrefixText
 					end
 					userType = 3
 				end
