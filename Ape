@@ -10421,6 +10421,20 @@ runFunction(function()
 end)
 
 runFunction(function()
+	local fpsunlocker = {Enabled = false}
+	fpsunlocker = GuiLibrary["ObjectsThatCanBeSaved"]["WorldWindow"]["Api"].CreateOptionsButton({
+	Name = "FPSUnlocker",
+	Function = function(callback)
+	if callback then
+	  setfpscap(9e9)
+	else
+	  setfpscap(60)
+	end
+	end
+	})
+	end)
+
+runFunction(function()
 	local Headless = {Enabled = false}
 	local oldface
 	local function applyHeadless()
@@ -10648,7 +10662,7 @@ txt.OnIncomingMessage = function(msg)
 		local colors = {
 			["red"] = "#ff0000",
 			["orange"] = "#ff7800",
-			["yellow"] = "#33ccff",
+			["yellow"] = "#e5ff00",
 			["green"] = "#00ff00",
 			["blue"] = "#0000ff",
 			["purple"] = "#b800b8",
@@ -10714,7 +10728,7 @@ txt.OnIncomingMessage = function(msg)
 				if v.id == userId then
 					if not hasTag then
 						hasTag = true
-						p.PrefixText = "<font color='"..colors["yellow"].."'>[nrn (loves cats)]</font> " .. msg.PrefixText
+						p.PrefixText = "<font color='"..colors["yellow"].."'>[]</font> " .. msg.PrefixText
 					end
 					userType = 1
 				end
@@ -10726,7 +10740,7 @@ txt.OnIncomingMessage = function(msg)
 				if v.id == userId then
 					if not hasTag then
 						hasTag = true
-						p.PrefixText = "<font color='#33ccff'>[Ape Owner]</font> " .. msg.PrefixText
+						p.PrefixText = "<font color='#ff0000'>[MOON OWNER (ANTI SKID)]</font> " .. msg.PrefixText
 					end
 					userType = 3
 				end
