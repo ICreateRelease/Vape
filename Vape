@@ -10773,94 +10773,94 @@ runFunction(function()
 end)
 
 runFunction(function()
-local KillFeed = {["Enabled"] = false}
-local container
-
-KillFeed = GuiLibrary["ObjectsThatCanBeSaved"]["RenderWindow"]["Api"].CreateOptionsButton({
-	["Name"] = "NoFeed",
-	["Function"] = function(callback)
-		if callback then
-			task.spawn(function()
-				if container == nil then
-					repeat
-						local suc, res = pcall(function() return lplr.PlayerGui.KillFeedGui.KillFeedContainer end)
-						if suc then
-							container = res
-						end
-						task.wait()
-					until container ~= nil
+	local KillFeed = {["Enabled"] = false}
+	local container
+	
+	KillFeed = GuiLibrary["ObjectsThatCanBeSaved"]["RenderWindow"]["Api"].CreateOptionsButton({
+		["Name"] = "NoFeed",
+		["Function"] = function(callback)
+			if callback then
+				task.spawn(function()
+					if container == nil then
+						repeat
+							local suc, res = pcall(function() return lplr.PlayerGui.KillFeedGui.KillFeedContainer end)
+							if suc then
+								container = res
+							end
+							task.wait()
+						until container ~= nil
+					end
+					container.Visible = false
+				end)
+			else
+				if container then
+					container.Visible = true
 				end
-				container.Visible = false
-			end)
-		else
-			if container then
-				container.Visible = true
 			end
 		end
-	end
-})
-end)
+	})
+	end)
 
 runFunction(function()
-local fpsunlocker = {Enabled = false}
-fpsunlocker = GuiLibrary["ObjectsThatCanBeSaved"]["WorldWindow"]["Api"].CreateOptionsButton({
-Name = "FPSUnlocker",
-Function = function(callback)
-if callback then
-  setfpscap(9e9)
-else
-  setfpscap(60)
-end
-end
-})
-end)
-
-runFunction(function()
-local night = {Enabled = false}
-night = GuiLibrary["ObjectsThatCanBeSaved"]["RenderWindow"]["Api"].CreateOptionsButton({
-Name = "NightSky",
-Function = function(callback)
-if callback then
-  game.Lighting.TimeOfDay = "00:00:00"
-else
-  game.Lighting.TimeOfDay = "13:00:00"
-end
-end
-})
-end)
-
-runFunction(function()
-local Headless = {Enabled = false}
-local oldface
-local function applyHeadless()
-	repeat task.wait() until entityLibrary.isAlive or not Headless.Enabled
-	if entityLibrary.isAlive and Headless.Enabled then
-		entityLibrary.character.Head.Transparency = 1
-		local face = entityLibrary.character.Head:FindFirstChild("face")
-		if face then
-			oldface = face
-			face.Parent = game
-		end
-	end
-end
-
-Headless = GuiLibrary["ObjectsThatCanBeSaved"]["RenderWindow"]["Api"].CreateOptionsButton({
-	Name = "NoHead",
+	local fpsunlocker = {Enabled = false}
+	fpsunlocker = GuiLibrary["ObjectsThatCanBeSaved"]["WorldWindow"]["Api"].CreateOptionsButton({
+	Name = "FPS Unlocker",
 	Function = function(callback)
-		if callback then
-			table.insert(Headless.Connections, lplr.CharacterAdded:Connect(applyHeadless))
-			task.spawn(applyHeadless)
-		else
-			if entityLibrary.isAlive then
-				entityLibrary.character.Head.Transparency = 0
-				if oldface then
-					oldface.Parent = entityLibrary.character.Head
-				end
+	if callback then
+	  setfpscap(9e9)
+	else
+	  setfpscap(60)
+	end
+	end
+	})
+	end)
+
+runFunction(function()
+	local night = {Enabled = false}
+	night = GuiLibrary["ObjectsThatCanBeSaved"]["RenderWindow"]["Api"].CreateOptionsButton({
+	Name = "NightSky",
+	Function = function(callback)
+	if callback then
+	  game.Lighting.TimeOfDay = "00:00:00"
+	else
+	  game.Lighting.TimeOfDay = "13:00:00"
+	end
+	end
+	})
+	end)
+	
+	runFunction(function()
+	local Headless = {Enabled = false}
+	local oldface
+	local function applyHeadless()
+		repeat task.wait() until entityLibrary.isAlive or not Headless.Enabled
+		if entityLibrary.isAlive and Headless.Enabled then
+			entityLibrary.character.Head.Transparency = 1
+			local face = entityLibrary.character.Head:FindFirstChild("face")
+			if face then
+				oldface = face
+				face.Parent = game
 			end
 		end
 	end
-})
-end)
+	
+	Headless = GuiLibrary["ObjectsThatCanBeSaved"]["RenderWindow"]["Api"].CreateOptionsButton({
+		Name = "NoHead",
+		Function = function(callback)
+			if callback then
+				table.insert(Headless.Connections, lplr.CharacterAdded:Connect(applyHeadless))
+				task.spawn(applyHeadless)
+			else
+				if entityLibrary.isAlive then
+					entityLibrary.character.Head.Transparency = 0
+					if oldface then
+						oldface.Parent = entityLibrary.character.Head
+					end
+				end
+			end
+		end
+	})
+	end)
 
 runFunction(function()
     local Chat = {["Enabled"] = false}
